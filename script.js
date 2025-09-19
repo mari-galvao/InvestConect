@@ -105,3 +105,4 @@ function validateForm(data) {
   }
   if (!data.docUrl.trim()) {
     document.getElementById("error-docUrl
+                            }
