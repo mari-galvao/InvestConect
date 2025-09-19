@@ -1,4 +1,5 @@
-// Dados armazenados localmente
+
+  // Dados armazenados localmente
 const users = [];
 const visualizacoes = [];
 let chatData = null; // { empresa, investidor, messages: [] }
@@ -97,15 +98,4 @@ function validateForm(data) {
   }
   if (!data.cpf.trim()) {
     document.getElementById("error-cpf").textContent = "Campo obrigatório";
-    valid = false;
-  }
-  if (!data.endereco.trim()) {
-    document.getElementById("error-endereco").textContent = "Campo obrigatório";
-    valid = false;
-  }
-    if (!data.docUrl.trim()) {
-      document.getElementById("error-docUrl").textContent = "Campo obrigatório";
-      valid = false;
-    }
-    return valid;
-  }
+    valid =
