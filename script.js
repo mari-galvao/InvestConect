@@ -3,7 +3,7 @@ const users = [];
 const visualizacoes = [];
 let chatData = null; // { empresa, investidor, messages: [] }
 
-// Elementos
+// Elementos do DOM
 const pages = {
   home: document.getElementById("page-home"),
   cadastro: document.getElementById("page-cadastro"),
@@ -104,5 +104,178 @@ function validateForm(data) {
     valid = false;
   }
   if (!data.docUrl.trim()) {
-    document.getElementById("error-docUrl
-                            }
+    document.getElementById("error-docUrl").textContent = "Campo obrigatório";
+    valid = false;
+  } else {
+    try {
+      new URL(data.docUrl);
+    } catch {
+      document.getElementById("error-docUrl").textContent = "URL inválida";
+      valid = false;
+    }
+  }
+
+  if (data.tipo === "investidor") {
+    if (!data.fonteInvestimento.trim()) {
+      document.getElementById("error-fonteInvestimento").textContent = "Campo obrigatório";
+      valid = false;
+    }
+    if (!data.areasInvestimento.trim()) {
+      document.getElementById("error-areasInvestimento").textContent = "Campo obrigatório";
+      valid = false;
+    }
+  } else if (data.tipo === "empresa") {
+    if (!data.descricaoProduto.trim()) {
+      document.getElementById("error-descricaoProduto").textContent = "Campo obrigatório";
+      valid = false;
+    }
+    if (!data.necessidadeInvestimento.trim()) {
+      document.getElementById("error-necessidadeInvestimento").textContent = "Campo obrigatório";
+      valid = false;
+    }
+  }
+
+  return valid;
+}
+
+// Cadastro
+formCadastro.onsubmit = (e) => {
+  e.preventDefault();
+
+  const data = {
+    tipo: tipoSelect.value,
+    nome: formCadastro.nome.value.trim(),
+    cpf: formCadastro.cpf.value.trim(),
+    endereco: formCadastro.endereco.value.trim(),
+    docUrl: formCadastro.docUrl.value.trim(),
+    fonteInvestimento: formCadastro.fonteInvestimento.value.trim(),
+    areasInvestimento: formCadastro.areasInvestimento.value.trim(),
+    descricaoProduto: formCadastro.descricaoProduto.value.trim(),
+    necessidadeInvestimento: formCadastro.necessidadeInvestimento.value.trim(),
+  };
+
+  if (!validateForm(data)) return;
+
+  users.push(data);
+  alert("Cadastro realizado com sucesso!");
+
+  // Limpar formulário
+  formCadastro.reset();
+  tipoSelect.value = "investidor";
+  investidorFields.classList.remove("hidden");
+  empresaFields.classList.add("hidden");
+  clearErrors();
+
+  // Redirecionar para página correta
+  if (data.tipo === "investidor") {
+    renderEmpresas();
+    showPage("investidor");
+  } else {
+    renderInvestidores();
+    renderVisualizacoes();
+    showPage("empresa");
+  }
+};
+
+// Renderizar lista de empresas para investidor
+function renderEmpresas() {
+  listaEmpresas.innerHTML = "";
+  const empresas = users.filter((u) => u.tipo === "empresa");
+  if (empresas.length === 0) {
+    listaEmpresas.innerHTML = "<li>Nenhuma empresa cadastrada ainda.</li>";
+    return;
+  }
+  empresas.forEach((empresa, idx) => {
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <strong>${empresa.nome}</strong><br/>
+      <em>Descrição:</em> ${empresa.descricaoProduto}<br/>
+      <em>Necessidade:</em> ${empresa.necessidadeInvestimento}<br/>
+      <button data-idx="${idx}">Investir / Conversar</button>
+    `;
+    const btn = li.querySelector("button");
+    btn.onclick = () => startChat(empresa);
+    listaEmpresas.appendChild(li);
+  });
+}
+
+// Renderizar lista de investidores para empresa
+function renderInvestidores() {
+  listaInvestidores.innerHTML = "";
+  const investidores = users.filter((u) => u.tipo === "investidor");
+  if (investidores.length === 0) {
+    listaInvestidores.innerHTML = "<li>Nenhum investidor cadastrado ainda.</li>";
+    return;
+  }
+  investidores.forEach((inv) => {
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <strong>${inv.nome}</strong><br/>
+      <em>Fonte do investimento:</em> ${inv.fonteInvestimento}<br/>
+      <em>Áreas:</em> ${inv.areasInvestimento}
+    `;
+    listaInvestidores.appendChild(li);
+  });
+}
+
+// Renderizar visualizações para empresa
+function renderVisualizacoes() {
+  listaVisualizacoes.innerHTML = "";
+  if (visualizacoes.length === 0) {
+    listaVisualizacoes.innerHTML = "<li>Ninguém visualizou sua ideia ainda.</li>";
+    return;
+  }
+  visualizacoes.forEach((inv) => {
+    const li = document.createElement("li");
+    li.textContent = `Investidor: ${inv.nome} visualizou sua ideia.`;
+    listaVisualizacoes.appendChild(li);
+  });
+}
+
+// Iniciar chat entre investidor e empresa
+function startChat(empresa) {
+  // Pega o último investidor cadastrado
+  const investidor = [...users].reverse().find((u) => u.tipo === "investidor");
+  if (!investidor) {
+    alert("Nenhum investidor cadastrado para iniciar chat.");
+    return;
+  }
+  // Registrar visualização
+  visualizacoes.push(investidor);
+
+  chatData = {
+    empresa,
+    investidor,
+    messages: [
+      { from: "empresa", text: `Olá, sou ${empresa.nome}. Como posso ajudar?` },
+    ],
+  };
+  renderChat();
+  showPage("chat");
+  navButtons.chat.classList.remove("hidden");
+}
+
+// Renderizar chat
+function renderChat() {
+  chatWindow.innerHTML = "";
+  chatData.messages.forEach((msg) => {
+    const div = document.createElement("div");
+    div.classList.add("chat-message");
+    div.classList.add(msg.from);
+    div.innerHTML = `<b>${msg.from === "investidor" ? chatData.investidor.nome : chatData.empresa.nome}:</b> ${msg.text}`;
+    chatWindow.appendChild(div);
+  });
+  chatWindow.scrollTop = chatWindow.scrollHeight;
+}
+
+// Enviar mensagem no chat
+chatSend.onclick = () => {
+  const text = chatInput.value.trim();
+  if (!text) return;
+  chatData.messages.push({ from: "investidor", text });
+  renderChat();
+  chatInput.value = "";
+};
+
+// Inicializa mostrando home
+showPage("home");
