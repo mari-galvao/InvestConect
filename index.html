@@ -37,51 +37,66 @@
     <section id="page-cadastro" class="page">
       <div class="card">
         <h2>Cadastro</h2>
-        <label for="tipo">Tipo:</label>
-        <select id="tipo" name="tipo" class="input-select">
-          <option value="investidor">Investidor</option>
-          <option value="empresa">Empresa</option>
-        </select>
+        
+        <!-- Etapa 1: Identificação -->
+        <div id="etapa-1" class="step active">
+          <label for="tipo">Qual é o seu tipo de perfil?</label>
+          <select id="tipo" name="tipo" class="input-select">
+            <option value="">Selecione...</option>
+            <option value="investidor">Investidor</option>
+            <option value="empresa">Empresa</option>
+          </select>
+          <div class="error" id="error-tipo"></div>
+          <button type="button" id="btn-proximo" class="btn-primary" disabled>Próximo</button>
+        </div>
 
-        <form id="form-cadastro" novalidate>
-          <label for="nome">Nome:</label>
-          <input type="text" id="nome" name="nome" class="input-text" required />
-          <div class="error" id="error-nome"></div>
+        <!-- Etapa 2: Cadastro Personalizado -->
+        <div id="etapa-2" class="step">
+          <form id="form-cadastro" novalidate>
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" class="input-text" required />
+            <div class="error" id="error-nome"></div>
 
-          <label for="cpf">CPF:</label>
-          <input type="text" id="cpf" name="cpf" class="input-text" required />
-          <div class="error" id="error-cpf"></div>
+            <label for="cpf">CPF:</label>
+            <input type="text" id="cpf" name="cpf" class="input-text" required />
+            <div class="error" id="error-cpf"></div>
 
-          <label for="endereco">Endereço:</label>
-          <input type="text" id="endereco" name="endereco" class="input-text" required />
-          <div class="error" id="error-endereco"></div>
+            <label for="endereco">Endereço:</label>
+            <input type="text" id="endereco" name="endereco" class="input-text" required />
+            <div class="error" id="error-endereco"></div>
 
-          <label for="docUrl">Reconhecimento de documento (URL da foto):</label>
-          <input type="url" id="docUrl" name="docUrl" class="input-text" required />
-          <div class="error" id="error-docUrl"></div>
+            <label for="docUrl">Reconhecimento de documento (URL da foto):</label>
+            <input type="url" id="docUrl" name="docUrl" class="input-text" required />
+            <div class="error" id="error-docUrl"></div>
 
-          <div id="investidor-fields">
-            <label for="fonteInvestimento">Fonte do investimento:</label>
-            <input type="text" id="fonteInvestimento" name="fonteInvestimento" class="input-text" />
-            <div class="error" id="error-fonteInvestimento"></div>
+            <!-- Campos para Investidor -->
+            <div id="investidor-fields" class="fields-group hidden">
+              <label for="fonteInvestimento">Fonte do investimento:</label>
+              <input type="text" id="fonteInvestimento" name="fonteInvestimento" class="input-text" />
+              <div class="error" id="error-fonteInvestimento"></div>
 
-            <label for="areasInvestimento">Áreas que quer investir (separe por vírgula):</label>
-            <input type="text" id="areasInvestimento" name="areasInvestimento" class="input-text" />
-            <div class="error" id="error-areasInvestimento"></div>
-          </div>
+              <label for="areasInvestimento">Áreas que quer investir (separe por vírgula):</label>
+              <input type="text" id="areasInvestimento" name="areasInvestimento" class="input-text" />
+              <div class="error" id="error-areasInvestimento"></div>
+            </div>
 
-          <div id="empresa-fields" class="hidden">
-            <label for="descricaoProduto">Descrição da ideia do produto:</label>
-            <textarea id="descricaoProduto" name="descricaoProduto" class="input-textarea"></textarea>
-            <div class="error" id="error-descricaoProduto"></div>
+            <!-- Campos para Empresa -->
+            <div id="empresa-fields" class="fields-group hidden">
+              <label for="descricaoProduto">Descrição da ideia do produto:</label>
+              <textarea id="descricaoProduto" name="descricaoProduto" class="input-textarea"></textarea>
+              <div class="error" id="error-descricaoProduto"></div>
 
-            <label for="necessidadeInvestimento">O que a empresa quer vender / precisa de investimento:</label>
-            <textarea id="necessidadeInvestimento" name="necessidadeInvestimento" class="input-textarea"></textarea>
-            <div class="error" id="error-necessidadeInvestimento"></div>
-          </div>
+              <label for="necessidadeInvestimento">O que a empresa quer vender / precisa de investimento:</label>
+              <textarea id="necessidadeInvestimento" name="necessidadeInvestimento" class="input-textarea"></textarea>
+              <div class="error" id="error-necessidadeInvestimento"></div>
+            </div>
 
-          <button type="submit" class="btn-primary btn-submit">Cadastrar</button>
-        </form>
+            <div class="step-buttons">
+              <button type="button" id="btn-anterior" class="btn-secondary">Anterior</button>
+              <button type="submit" class="btn-primary btn-submit">Cadastrar</button>
+            </div>
+          </form>
+        </div>
       </div>
     </section>
 
