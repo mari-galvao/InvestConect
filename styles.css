@@ -146,6 +146,30 @@ label {
   min-height: 100px;
 }
 
+/* Estilos para etapas do cadastro */
+.step {
+  display: none;
+}
+
+.step.active {
+  display: block;
+}
+
+.fields-group {
+  margin-top: 20px;
+}
+
+.fields-group.hidden {
+  display: none;
+}
+
+.step-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+  justify-content: space-between;
+}
+
 button.btn-primary {
   background: #7ec8e3;
   border: none;
@@ -153,7 +177,6 @@ button.btn-primary {
   font-weight: 700;
   font-size: 1.1rem;
   padding: 14px 30px;
-  margin-top: 30px;
   border-radius: 30px;
   cursor: pointer;
   box-shadow: 0 4px 15px rgba(126,200,227,0.6);
@@ -166,8 +189,33 @@ button.btn-primary:hover {
   box-shadow: 0 6px 20px rgba(90,166,209,0.8);
 }
 
+button.btn-primary:disabled {
+  background: #444;
+  color: #888;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+button.btn-secondary {
+  background: #5aa6d1;
+  border: none;
+  color: #121212;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 12px 25px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  font-family: 'Open Sans', sans-serif;
+}
+
+button.btn-secondary:hover {
+  background: #3d8bc1;
+}
+
 button.btn-submit {
-  width: 100%;
+  flex-grow: 1;
+  width: auto;
 }
 
 ul.list {
@@ -293,7 +341,7 @@ ul.list li button:hover {
 }
 
 /* Responsivo */
-@media screen and (max-width: 1020px) {
+@media (max-width: 600px) {
   main {
     padding: 20px 10px;
   }
@@ -324,5 +372,12 @@ ul.list li button:hover {
     margin: 5px 0;
     border-radius: 12px;
   }
+  .step-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+  button.btn-primary,
+  button.btn-secondary {
+    width: 100%;
+  }
 }
-
