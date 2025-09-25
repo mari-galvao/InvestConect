@@ -1,122 +1,63 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>InvestConnect - Elegante e Responsivo</title>
-  <link rel="stylesheet" href="styles.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Open+Sans&display=swap" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>InvestConnect</h1>
-    <nav>
-      <button id="nav-home">Home</button>
-      <button id="nav-cadastro">Cadastro</button>
-      <button id="nav-investidor">Investidor</button>
-      <button id="nav-empresa">Empresa</button>
-      <button id="nav-chat" class="hidden">Chat</button>
-    </nav>
-  </header>
-  <main>
-    <!-- Home -->
-    <section id="page-home" class="page active">
-      <div class="card">
-        <h2>Bem-vindo ao InvestConnect</h2>
-        <p>
-          Conectamos investidores a pequenas empresas que buscam crescimento.
-        </p>
-        <p>
-          Cadastre-se e descubra oportunidades exclusivas de investimento ou encontre investidores para seu negócio.
-        </p>
-        <button id="btn-comecar" class="btn-primary">Começar</button>
-      </div>
-    </section>
+    <div class="container">
+        <h1>Cadastro</h1>
+        <form id="cadastroForm">
+            <div class="form-group">
+                <label for="tipoCadastro">Você é:</label>
+                <select id="tipoCadastro" name="tipoCadastro">
+                    <option value="">Selecione</option>
+                    <option value="investidor">Investidor</option>
+                    <option value="empresa">Empresa</option>
+                </select>
+            </div>
 
-    <!-- Cadastro -->
-    <section id="page-cadastro" class="page">
-      <div class="card">
-        <h2>Cadastro</h2>
-        <label for="tipo">Tipo:</label>
-        <select id="tipo" name="tipo" class="input-select">
-          <option value="investidor">Investidor</option>
-          <option value="empresa">Empresa</option>
-        </select>
+            <div id="camposComuns">
+                <div class="form-group">
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" name="nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="senha">Senha:</label>
+                    <input type="password" id="senha" name="senha" required>
+                </div>
+            </div>
 
-        <form id="form-cadastro" novalidate>
-          <label for="nome">Nome:</label>
-          <input type="text" id="nome" name="nome" class="input-text" required />
-          <div class="error" id="error-nome"></div>
+            <div id="camposInvestidor" class="hidden">
+                <div class="form-group">
+                    <label for="valorInvestimento">Valor do investimento:</label>
+                    <input type="number" id="valorInvestimento" name="valorInvestimento">
+                </div>
+                <div class="form-group">
+                    <label for="areasInteresse">Áreas que quer investir:</label>
+                    <input type="text" id="areasInteresse" name="areasInteresse">
+                </div>
+            </div>
 
-          <label for="cpf">CPF:</label>
-          <input type="text" id="cpf" name="cpf" class="input-text" required />
-          <div class="error" id="error-cpf"></div>
+            <div id="camposEmpresa" class="hidden">
+                <div class="form-group">
+                    <label for="nomeEmpresa">Nome da empresa:</label>
+                    <input type="text" id="nomeEmpresa" name="nomeEmpresa">
+                </div>
+            </div>
 
-          <label for="endereco">Endereço:</label>
-          <input type="text" id="endereco" name="endereco" class="input-text" required />
-          <div class="error" id="error-endereco"></div>
-
-          <label for="docUrl">Reconhecimento de documento (URL da foto):</label>
-          <input type="url" id="docUrl" name="docUrl" class="input-text" required />
-          <div class="error" id="error-docUrl"></div>
-
-          <div id="investidor-fields">
-            <label for="fonteInvestimento">Fonte do investimento:</label>
-            <input type="text" id="fonteInvestimento" name="fonteInvestimento" class="input-text" />
-            <div class="error" id="error-fonteInvestimento"></div>
-
-            <label for="areasInvestimento">Áreas que quer investir (separe por vírgula):</label>
-            <input type="text" id="areasInvestimento" name="areasInvestimento" class="input-text" />
-            <div class="error" id="error-areasInvestimento"></div>
-          </div>
-
-          <div id="empresa-fields" class="hidden">
-            <label for="descricaoProduto">Descrição da ideia do produto:</label>
-            <textarea id="descricaoProduto" name="descricaoProduto" class="input-textarea"></textarea>
-            <div class="error" id="error-descricaoProduto"></div>
-
-            <label for="necessidadeInvestimento">O que a empresa quer vender / precisa de investimento:</label>
-            <textarea id="necessidadeInvestimento" name="necessidadeInvestimento" class="input-textarea"></textarea>
-            <div class="error" id="error-necessidadeInvestimento"></div>
-          </div>
-
-          <button type="submit" class="btn-primary btn-submit">Cadastrar</button>
+            <button type="submit">Cadastrar</button>
         </form>
-      </div>
-    </section>
+    </div>
 
-    <!-- Investidor -->
-    <section id="page-investidor" class="page">
-      <div class="card">
-        <h2>Catálogo de Empresas</h2>
-        <ul id="lista-empresas" class="list"></ul>
-      </div>
-    </section>
-
-    <!-- Empresa -->
-    <section id="page-empresa" class="page">
-      <div class="card">
-        <h2>Investidores Disponíveis</h2>
-        <ul id="lista-investidores" class="list"></ul>
-
-        <h3>Visualizações da sua ideia</h3>
-        <ul id="lista-visualizacoes" class="list"></ul>
-      </div>
-    </section>
-
-    <!-- Chat -->
-    <section id="page-chat" class="page">
-      <div class="card chat-card">
-        <h2>Chat</h2>
-        <div class="chat-window" id="chat-window"></div>
-        <div class="chat-input-area">
-          <input type="text" id="chat-input" placeholder="Digite sua mensagem" class="input-text" />
-          <button id="chat-send" class="btn-primary">Enviar</button>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
+
+
