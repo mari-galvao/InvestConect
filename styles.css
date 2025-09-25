@@ -12,6 +12,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  line-height: 1.5;
 }
 
 header {
@@ -24,6 +25,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap; /* Permite quebra em telas muito pequenas */
 }
 
 header h1 {
@@ -32,6 +34,13 @@ header h1 {
   font-size: 1.8rem;
   color: #7ec8e3; /* azul claro */
   letter-spacing: 2px;
+  flex-shrink: 0; /* Não encolhe o título */
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px; /* Espaçamento entre botões */
 }
 
 nav button {
@@ -39,13 +48,13 @@ nav button {
   border: 2px solid #7ec8e3;
   color: #7ec8e3;
   padding: 8px 18px;
-  margin-left: 12px;
   font-weight: 600;
   font-size: 1rem;
   border-radius: 30px;
   cursor: pointer;
   transition: all 0.3s ease;
   font-family: 'Open Sans', sans-serif;
+  white-space: nowrap; /* Evita quebra de linha nos botões */
 }
 
 nav button:hover {
@@ -76,8 +85,8 @@ main {
 }
 
 @keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity: 1;}
+  from {opacity: 0; transform: translateY(10px);}
+  to {opacity: 1; transform: translateY(0);}
 }
 
 .card {
@@ -94,6 +103,7 @@ h2 {
   margin-bottom: 20px;
   color: #7ec8e3;
   letter-spacing: 1.5px;
+  text-align: center; /* Centraliza títulos para harmonia */
 }
 
 h3 {
@@ -101,6 +111,7 @@ h3 {
   margin-bottom: 15px;
   font-weight: 600;
   color: #a3d0f7;
+  text-align: center;
 }
 
 p {
@@ -108,6 +119,7 @@ p {
   line-height: 1.6;
   margin-bottom: 15px;
   color: #ccc;
+  text-align: center;
 }
 
 label {
@@ -168,6 +180,7 @@ label {
   gap: 15px;
   margin-top: 30px;
   justify-content: space-between;
+  align-items: center;
 }
 
 button.btn-primary {
@@ -184,7 +197,7 @@ button.btn-primary {
   font-family: 'Merriweather', serif;
 }
 
-button.btn-primary:hover {
+button.btn-primary:hover:not(:disabled) {
   background: #5aa6d1;
   box-shadow: 0 6px 20px rgba(90,166,209,0.8);
 }
@@ -240,12 +253,16 @@ ul.list li:hover {
 ul.list li strong {
   font-size: 1.2rem;
   color: #a3d0f7;
+  display: block;
+  margin-bottom: 8px;
 }
 
 ul.list li em {
   color: #ccc;
   font-style: normal;
   font-weight: 600;
+  display: block;
+  margin-bottom: 5px;
 }
 
 ul.list li button {
@@ -259,6 +276,7 @@ ul.list li button {
   font-weight: 600;
   font-family: 'Open Sans', sans-serif;
   transition: all 0.3s ease;
+  width: 100%; /* Full-width em listas para harmonia */
 }
 
 ul.list li button:hover {
@@ -271,6 +289,7 @@ ul.list li button:hover {
   display: flex;
   flex-direction: column;
   height: 500px;
+  min-height: 400px; /* Mínimo para harmonia em telas pequenas */
 }
 
 .chat-window {
@@ -294,6 +313,7 @@ ul.list li button:hover {
   line-height: 1.4;
   font-family: 'Open Sans', sans-serif;
   box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  word-wrap: break-word; /* Evita overflow em mensagens longas */
 }
 
 .chat-message.investidor {
@@ -313,6 +333,7 @@ ul.list li button:hover {
 .chat-input-area {
   display: flex;
   gap: 15px;
+  align-items: center;
 }
 
 .chat-input-area input {
@@ -338,39 +359,89 @@ ul.list li button:hover {
   font-size: 0.85rem;
   margin-top: 4px;
   font-weight: 600;
+  text-align: left;
 }
 
-/* Responsivo */
-@media (max-width: 600px) {
+/* RESPONSIVIDADE - Breakpoints para harmonia suave */
+
+/* Tablet grande / Laptop pequeno (até 1024px) */
+@media (max-width: 1024px) {
   main {
-    padding: 20px 10px;
+    padding: 30px 15px;
+    max-width: 95%;
+  }
+  .card {
+    padding: 25px 30px;
+  }
+  h2 {
+    font-size: 1.8rem;
+  }
+  header {
+    padding: 15px 30px;
+  }
+  nav button {
+    padding: 7px 15px;
+    font-size: 0.95rem;
+  }
+  .step-buttons {
+    gap: 12px;
+  }
+  button.btn-primary,
+  button.btn-secondary {
+    padding: 12px 25px;
+    font-size: 1rem;
+  }
+}
+
+/* Tablet (até 768px) */
+@media (max-width: 768px) {
+  main {
+    padding: 25px 10px;
   }
   .card {
     padding: 20px 25px;
   }
+  h2 {
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+  }
+  h3 {
+    font-size: 1.3rem;
+  }
+  p {
+    font-size: 1rem;
+    margin-bottom: 12px;
+  }
+  header {
+    padding: 15px 20px;
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+  header h1 {
+    font-size: 1.6rem;
+    order: 2; /* Título abaixo do nav em mobile */
+  }
+  nav {
+    order: 1;
+    justify-content: center;
+    width: 100%;
+  }
   nav button {
     padding: 6px 12px;
     font-size: 0.9rem;
-    margin-left: 6px;
+    flex: 1; /* Botões ocupam espaço igual */
+    min-width: 80px;
   }
-  ul.list li {
-    font-size: 0.9rem;
-    padding: 15px 20px;
+  label {
+    margin-top: 15px;
+    font-size: 0.95rem;
   }
-  .chat-card {
-    height: auto;
-  }
-  .chat-window {
-    height: 250px;
-  }
-  .chat-input-area {
-    flex-direction: column;
-  }
-  .chat-input-area input,
-  .chat-input-area button {
-    width: 100%;
-    margin: 5px 0;
-    border-radius: 12px;
+  .input-text,
+  .input-textarea,
+  .input-select {
+    padding: 10px 12px;
+    font-size: 0.95rem;
   }
   .step-buttons {
     flex-direction: column;
@@ -379,5 +450,136 @@ ul.list li button:hover {
   button.btn-primary,
   button.btn-secondary {
     width: 100%;
+    padding: 12px;
+  }
+  ul.list li {
+    padding: 15px 20px;
+  }
+  ul.list li strong {
+    font-size: 1.1rem;
+  }
+  .chat-card {
+    height: auto;
+    min-height: 350px;
+  }
+  .chat-window {
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+  .chat-message {
+    max-width: 85%;
+    padding: 10px 15px;
+    font-size: 0.95rem;
+  }
+  .chat-input-area {
+    gap: 10px;
+  }
+  .chat-input-area input {
+    padding: 10px 12px;
+  }
+}
+
+/* Mobile (até 480px) */
+@media (max-width: 480px) {
+  main {
+    padding: 20px 10px;
+  }
+  .card {
+    padding: 15px 20px;
+    border-radius: 8px;
+  }
+  h2 {
+    font-size: 1.4rem;
+    letter-spacing: 1px;
+  }
+  h3 {
+    font-size: 1.2rem;
+    margin-top: 20px;
+  }
+  p {
+    font-size: 0.95rem;
+    padding: 0 5px;
+  }
+  header {
+    padding: 10px 15px;
+  }
+  header h1 {
+    font-size: 1.4rem;
+    letter-spacing: 1px;
+  }
+  nav button {
+    padding: 5px 10px;
+    font-size: 0.85rem;
+    border-radius: 20px;
+    min-width: 70px;
+  }
+  label {
+    margin-top: 12px;
+    font-size: 0.9rem;
+  }
+  .input-text,
+  .input-textarea,
+  .input-select {
+    padding: 10px 10px;
+    font-size: 0.9rem;
+    border-radius: 6px;
+  }
+  .input-textarea {
+    min-height: 80px;
+  }
+  ul.list li {
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+  }
+  ul.list li strong {
+    font-size: 1rem;
+  }
+  ul.list li button {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+  }
+  .chat-card {
+    min-height: 300px;
+  }
+  .chat-window {
+    height: 200px;
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+  .chat-message {
+    max-width: 90%;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+  .chat-input-area {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .chat-input-area input,
+  .chat-input-area button {
+    width: 100%;
+    border-radius: 20px;
+    padding: 10px;
+  }
+  .error {
+    font-size: 0.8rem;
+  }
+}
+
+/* Telas muito pequenas (até 320px) - Ajustes extras para harmonia */
+@media (max-width: 320px) {
+  main {
+    padding: 15px 5px;
+  }
+  .card {
+    padding: 12px 15px;
+  }
+  nav button {
+    font-size: 0.8rem;
+    padding: 4px 8px;
+  }
+  ul.list li {
+    padding: 10px 12px;
   }
 }
